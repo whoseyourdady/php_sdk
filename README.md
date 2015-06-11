@@ -33,6 +33,7 @@ var_dump($uploadRet);
 
 require('./include.php');
 use TencentYoutuyun\Youtu;
+
 //人脸对比
 $uploadRet = YouTu::FaceCompare('you_path_one.jpg', 'you_path_two.jpg');
 var_dump($uploadRet);
