@@ -17,6 +17,7 @@ php composer.phar require TencentYoutuyun/php-sdk
 ## 人脸对比示例1（使用composer安装后生成的autoload）
 ```php
 <?php
+
 require('./vendor/autoload.php');
 use TencentYoutuyun\Youtu;
 
@@ -31,7 +32,6 @@ var_dump($uploadRet);
 <?php
 
 require('./include.php');
-
 use TencentYoutuyun\Youtu;
 //人脸对比
 $uploadRet = YouTu::FaceCompare('you_path_one.jpg', 'you_path_two.jpg');
