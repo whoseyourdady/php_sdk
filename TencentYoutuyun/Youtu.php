@@ -153,7 +153,7 @@ class YouTu
         return $ret;
     }
 
-    public static function newperson($image_path, $person_id,array $group_ids) {
+    public static function NewPerson($image_path, $person_id,array $group_ids) {
         $image_path = realpath($image_path);
         if (!file_exists($image_path))
         {
