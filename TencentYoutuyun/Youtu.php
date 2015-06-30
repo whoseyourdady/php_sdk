@@ -44,6 +44,40 @@ class YouTu
         return $ret;
     }
 
+    public static function FaceShape($image_path) {
+
+        $image_path = realpath($image_path);
+        
+        if (!file_exists($image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/faceshape';
+        $sign = Auth::appSign($expired,self::USER_ID);
+
+       $image_data = file_get_contents($image_path);
+        $post_data = array(
+            "app_id" =>  Conf::APPID,
+            "image" =>  base64_encode($image_data)
+        );
+
+        $req = array(
+            'url' => $url,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+            ),
+        );
+        $rsp  = Http::send($req);
+        $ret  = json_decode($rsp, true);
+        return $ret;
+    }
+
+
     public static function FaceCompare($image_path_a, $image_path_b) {
 
         $image_path_a = realpath($image_path_a);
@@ -214,11 +248,12 @@ class YouTu
     public static function AddFace($person_id,array $image_path_arr) {
         $image_data_arr=array();
         foreach($image_path_arr as $one_path){
-            if (!file_exists($one_path))
+            $image_path = realpath($one_path);
+            if (!file_exists($image_path))
             {
                 return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$one_path.' not exists', 'data' => array());
             }
-            $image_data=file_get_contents($one_path);
+            $image_data=file_get_contents($image_path);
             array_push($image_data_arr,base64_encode($image_data));
         }
         $expired = time() + self::EXPIRED_SECONDS;
