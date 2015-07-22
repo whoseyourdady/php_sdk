@@ -36,7 +36,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -69,7 +71,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -111,7 +115,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -145,7 +151,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -179,7 +187,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -212,7 +222,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -237,7 +249,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -272,7 +286,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -298,7 +314,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -324,7 +342,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -349,7 +369,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -373,7 +395,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -398,7 +422,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -423,7 +449,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
@@ -448,7 +476,9 @@ class YouTu
             'timeout' => 10,
             'data' => json_encode($post_data),
             'header' => array(
-                'Authorization: '.$sign,
+                'Authorization: '.$sign ,
+                'Content-Type: text/json',
+                'Host: api.youtu.qq.com',
             ),
         );
         $rsp  = Http::send($req);
