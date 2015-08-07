@@ -19,12 +19,14 @@ class Auth
         if (empty($secretId) || empty($secretKey)) {
             return self::AUTH_SECRET_ID_KEY_ERROR;
         }
+        
         $now = time();
         $rdm = rand();
         $plainText = 'a='.$appid.'&k='.$secretId.'&e='.$expired.'&t='.$now.'&r='.$rdm.'&u='.$userid;
         $bin = hash_hmac("SHA1", $plainText, $secretKey, true);
         $bin = $bin.$plainText;        
         $sign = base64_encode($bin);        
+        
         return $sign;
     }
 }
