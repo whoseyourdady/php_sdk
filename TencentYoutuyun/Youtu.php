@@ -38,7 +38,7 @@ class YouTu
 
     /**
      * @brief detectface
-     * @param $image_path 待检测的路径
+     * @param image_path 待检测的路径
      * @param isbigface 是否大脸模式 ０表示检测所有人脸， 1表示只检测照片最大人脸　适合单人照模式
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
@@ -81,7 +81,7 @@ class YouTu
     
     /**
      * @brief faceshape
-     * @param $image_path 待检测的路径
+     * @param image_path 待检测的路径
      * @param isbigface 是否大脸模式
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
@@ -124,8 +124,8 @@ class YouTu
     
 	/**
 	 * @brief facecompare
-	 * @param $image_path_a 待比对的A图片数据
-	 * @param $image_path_b 待比对的B图片数据
+	 * @param image_path_a 待比对的A图片数据
+	 * @param image_path_b 待比对的B图片数据
 	 * @return 返回的结果，JSON字符串，字段参见API文档
 	 */
     public static function facecompare($image_path_a, $image_path_b) {
@@ -173,7 +173,7 @@ class YouTu
     /**
      * @brief faceverify
      * @param person_id 待验证的人脸id
-     * @param $image_path 待验证的图片路径
+     * @param image_path 待验证的图片路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function faceverify($image_path,$person_id) {
@@ -214,7 +214,7 @@ class YouTu
     /**
      * @brief faceidentify
      * @param group_id 识别的组id
-     * @param $image_path 待识别的图片路径
+     * @param image_path 待识别的图片路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
          
@@ -255,14 +255,14 @@ class YouTu
 	/**
 	 * @brief newperson
 	 * @param person_id 新建的个体id，用户指定，需要保证app_id下的唯一性
-	 * @param person_name 待验证的图片数据
+	 * @param person_name 个体名字
 	 * @param group_ids 新建的个体存放的组id，可以指定多个组id，用户指定（组默认创建）
-	 * @param $image_path 包含个体人脸的图片数据
+	 * @param image_path 包含个体人脸的图片数据
 	 * @param person_tag 备注信息，用户自解释字段
 	* @return 返回的结果，JSON字符串，字段参见API文档
 	 */
          
-    public static function newperson($image_path, $person_id, $person_name, array $group_ids, $person_tag) {
+    public static function newperson($image_path, $person_id, array $group_ids, $person_name="", $person_tag="") {
         $real_image_path = realpath($image_path);
         if (!file_exists($real_image_path))
         {
@@ -474,7 +474,7 @@ class YouTu
     /**
      * @brief getgroupids
      * @param rsp 返回的组列表查询结果，JSON字符串，字段参见API文档
-     * @return 0成功 -1失败
+     * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function getgroupids() {
 
@@ -504,7 +504,7 @@ class YouTu
      * @brief getpersonids
      * @param group_id 待查询的组id
      * @param rsp 返回的个体列表查询结果，JSON字符串，字段参见API文档
-     * @return 0成功 -1失败
+     * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function getpersonids($group_id) {
 
@@ -535,7 +535,7 @@ class YouTu
          * @brief getfaceids
          * @param person_id 待查询的个体id
          * @param rsp 返回的人脸列表查询结果，JSON字符串，字段参见API文档
-         * @return 0成功 -1失败
+         * @return 返回的结果，JSON字符串，字段参见API文档
          */
     public static function getfaceids($person_id) {
 
@@ -566,7 +566,7 @@ class YouTu
      * @brief getfaceinfo
      * @param face_id 待查询的人脸id
      * @param rsp 返回的人脸信息查询结果，JSON字符串，字段参见API文档
-     * @return 0成功 -1失败
+     * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function getfaceinfo($face_id) {
 
