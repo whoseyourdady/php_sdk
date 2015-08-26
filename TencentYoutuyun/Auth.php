@@ -13,9 +13,9 @@ class Auth
      * @return string          签名
      */
     public static function appSign($expired,$userid) {
-        $secretId = Conf::SECRET_ID;
-        $secretKey = Conf::SECRET_KEY;
-        $appid  =  Conf::APPID;
+        $secretId = Conf::$SECRET_ID;
+        $secretKey = Conf::$SECRET_KEY;
+        $appid  =  Conf::$APPID;
         if (empty($secretId) || empty($secretKey)) {
             return self::AUTH_SECRET_ID_KEY_ERROR;
         }
