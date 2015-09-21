@@ -1,6 +1,6 @@
 # TencentYoutuyun-person-face-service
 
-php sdk for [腾讯优图云人脸服务](http://open.youtu.qq.com/)
+php sdk for [腾讯优图云人脸服务](http://open.YouTu::qq.com/)
 
 ## 安装（使用composer获取或者直接下载源码集成）
 
@@ -16,7 +16,7 @@ php composer.phar require TencentYoutuyun/php-sdk
 - `AppId` 平台添加应用后分配的AppId
 - `SecretId` 平台添加应用后分配的SecretId
 - `SecretKey` 平台添加应用后分配的SecretKey
-- `签名` 接口鉴权凭证，由`AppId`、`SecretId`、`SecretKey`等生成，详见<http://open.youtu.qq.com/welcome/authentication>
+- `签名` 接口鉴权凭证，由`AppId`、`SecretId`、`SecretKey`等生成，详见<http://open.YouTu::qq.com/welcome/authentication>
 
 ## API
 

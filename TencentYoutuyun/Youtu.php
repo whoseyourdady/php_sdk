@@ -14,26 +14,59 @@ class YouTu
      */
     public static function statusText($status) {
 
-        $statusText = 'unkown';
+        $statusText = 'UNKOWN';
         
         switch ($status) {
+        case 0:
+          $statusText = 'CONNECT_FAIL';
+          break;
         case 200:
           $statusText = 'HTTP OK';
           break;
         case 400:
-          $statusText = 'Bad Request';
+          $statusText = 'BAD_REQUEST';
           break;
         case 401:
-          $statusText = 'Unauthorized';
+          $statusText = 'UNAUTHORIZED';
           break;
         case 403:
-          $statusText = 'Forbidden';
+          $statusText = 'FORBIDDEN';
+          break;
+        case 404:
+          $statusText = 'NOTFOUND';
+          break;
+        case 411:
+          $statusText = 'REQ_NOLENGTH';
+          break;
+        case 423:
+          $statusText = 'SERVER_NOTFOUND';
+          break;
+        case 424:
+          $statusText = 'METHOD_NOTFOUND';
+          break;
+        case 425:
+          $statusText = 'REQUEST_OVERFLOW';
           break;
         case 500:
-          $statusText = 'Internal Server Error';
+          $statusText = 'INTERNAL_SERVER_ERROR';
+          break;
+        case 503:
+          $statusText = 'SERVICE_UNAVAILABLE';
+          break;
+        case 504:
+          $statusText = 'GATEWAY_TIME_OUT';
           break;
         }
         return $statusText;
+    }
+
+/**
+     * return the status message 
+     */
+    public static function getStatusText() {
+
+        $status=Http::info()['http_code'];
+        return self::statusText($status);
     }
 
     /**
@@ -52,7 +85,7 @@ class YouTu
         }
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/detectface';
+        $postUrl = Conf::$END_POINT . 'youtu/api/detectface';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $image_data = file_get_contents($real_image_path);
@@ -63,7 +96,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -74,11 +107,54 @@ class YouTu
         );
         $rsp  = Http::send($req);
 
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         
         return $ret;
     }
-    
+
+     /**
+     * @brief detectfaceurl
+     * @param url 图片url
+     * @param isbigface 是否大脸模式 ０表示检测所有人脸， 1表示只检测照片最大人脸　适合单人照模式
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function detectfaceurl($url, $isbigface) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/detectface';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "url" => $url,
+            "mode" => $isbigface
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        
+        return $ret;
+    }
+
     /**
      * @brief faceshape
      * @param image_path 待检测的路径
@@ -95,7 +171,7 @@ class YouTu
         }
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/faceshape';
+        $postUrl = Conf::$END_POINT . 'youtu/api/faceshape';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $image_data = file_get_contents($real_image_path);
@@ -106,7 +182,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -117,17 +193,59 @@ class YouTu
         );
         $rsp  = Http::send($req);
 
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
     
-    
-	/**
-	 * @brief facecompare
-	 * @param image_path_a 待比对的A图片数据
-	 * @param image_path_b 待比对的B图片数据
-	 * @return 返回的结果，JSON字符串，字段参见API文档
-	 */
+      /**
+     * @brief faceshapeurl
+     * @param url 图片url
+     * @param isbigface 是否大脸模式 ０表示检测所有人脸， 1表示只检测照片最大人脸　适合单人照模式
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function faceshapeurl($url, $isbigface) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/faceshape';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "url" => $url,
+            "mode" => $isbigface
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        
+        return $ret;
+    }
+
+   /**
+     * @brief facecompare
+     * @param image_path_a 待比对的A图片数据
+     * @param image_path_b 待比对的B图片数据
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
     public static function facecompare($image_path_a, $image_path_b) {
 
         $real_image_path_a = realpath($image_path_a);
@@ -143,7 +261,7 @@ class YouTu
         }
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/facecompare';
+        $postUrl = Conf::$END_POINT . 'youtu/api/facecompare';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $image_data_a = file_get_contents($real_image_path_a);
@@ -156,7 +274,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -166,9 +284,52 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
+    
+	/**
+	 * @brief facecompareurl
+	 * @param urlA 待比对的A图片url
+	 * @param urlB 待比对的B图片url
+	 * @return 返回的结果，JSON字符串，字段参见API文档
+	 */
+    public static function facecompareurl($urlA, $urlB) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/facecompare';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "urlA" => $urlA,
+            "urlB" => $urlB
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        return $ret;
+    }
+
+ 
 
     /**
      * @brief faceverify
@@ -186,7 +347,7 @@ class YouTu
         }
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/faceverify';
+        $postUrl = Conf::$END_POINT . 'youtu/api/faceverify';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $image_data = file_get_contents($real_image_path);
@@ -197,7 +358,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -206,7 +367,47 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        return $ret;
+    }
+
+        /**
+     * @brief faceverifyurl
+     * @param person_id 待验证的人脸id
+     * @param url 待验证的图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function faceverifyurl($url,$person_id) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/faceverify';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "url" =>  $url,
+            "person_id" =>$person_id,
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+            ),
+        );
+        $rsp  = Http::send($req);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -228,7 +429,7 @@ class YouTu
         }
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/faceidentify';
+        $postUrl = Conf::$END_POINT . 'youtu/api/faceidentify';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $image_data = file_get_contents($real_image_path);
@@ -239,7 +440,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -248,7 +449,48 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        return $ret;
+    }
+
+        /**
+     * @brief faceidentifyurl
+     * @param group_id 识别的组id
+     * @param url 待识别的图片的url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+         
+    public static function faceidentifyurl($url,$group_id) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/faceidentify';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "url" =>  $url,
+            "group_id" =>$group_id,
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+            ),
+        );
+        $rsp  = Http::send($req);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -270,7 +512,7 @@ class YouTu
         }
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/newperson';
+        $postUrl = Conf::$END_POINT . 'youtu/api/newperson';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $image_data = file_get_contents($real_image_path);
@@ -285,7 +527,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -294,7 +536,54 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        return $ret;
+    }
+
+    /**
+     * @brief newpersonurl
+     * @param person_id 新建的个体id，用户指定，需要保证app_id下的唯一性
+     * @param person_name 个体名字
+     * @param group_ids 新建的个体存放的组id，可以指定多个组id，用户指定（组默认创建）
+     * @param url 包含个体人脸的图片url
+     * @param person_tag 备注信息，用户自解释字段
+    * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+         
+    public static function newpersonurl($url, $person_id, array $group_ids, $person_name="", $person_tag="") {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/newperson';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "url" =>  $url,
+            "person_id" =>$person_id,
+            "group_ids" =>$group_ids,
+            "person_name" =>$person_name,
+            "tag" => $person_tag
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+            ),
+        );
+        $rsp  = Http::send($req);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -307,7 +596,7 @@ class YouTu
     public static function delperson($person_id) {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/delperson';
+        $postUrl = Conf::$END_POINT . 'youtu/api/delperson';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -316,7 +605,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -325,7 +614,11 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -337,7 +630,7 @@ class YouTu
      * @param facetag 人脸备注信息，用户自解释字段
 	 * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function addface($person_id,array $image_path_arr, $facetag) {
+    public static function addface($person_id,array $image_path_arr, $facetag="") {
         $image_data_arr=array();
         foreach($image_path_arr as $one_path){
             if (!file_exists($one_path))
@@ -348,7 +641,7 @@ class YouTu
             array_push($image_data_arr,base64_encode($image_data));
         }
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/addface';
+        $postUrl = Conf::$END_POINT . 'youtu/api/addface';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -359,7 +652,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -368,7 +661,49 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        return $ret;
+    }
+
+     /**
+     * @brief addfaceurl
+     * @param person_id 新增人脸的个体身份id
+     * @param url_arr 待增加的包含人脸的图片url，可加入多张（包体大小<2m）
+     * @param facetag 人脸备注信息，用户自解释字段
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function addfaceurl($person_id,array $url_arr, $facetag="") {
+   
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/addface';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "urls" =>  $url_arr,
+            "person_id" =>$person_id,
+            "tag" => $facetag
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+            ),
+        );
+        $rsp  = Http::send($req);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -382,7 +717,7 @@ class YouTu
     public static function delface($person_id,array $face_id_arr) {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/delface';
+        $postUrl = Conf::$END_POINT . 'youtu/api/delface';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -392,7 +727,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -401,7 +736,11 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -416,7 +755,7 @@ class YouTu
     public static function setinfo($person_name,$person_id, $person_tag) {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/setinfo';
+        $postUrl = Conf::$END_POINT . 'youtu/api/setinfo';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -427,7 +766,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -436,7 +775,11 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -449,7 +792,7 @@ class YouTu
     public static function getinfo($person_id) {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/getinfo';
+        $postUrl = Conf::$END_POINT . 'youtu/api/getinfo';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -458,7 +801,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -467,7 +810,11 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -479,7 +826,7 @@ class YouTu
     public static function getgroupids() {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/getgroupids';
+        $postUrl = Conf::$END_POINT . 'youtu/api/getgroupids';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -487,7 +834,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -496,7 +843,11 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -509,7 +860,7 @@ class YouTu
     public static function getpersonids($group_id) {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/getpersonids';
+        $postUrl = Conf::$END_POINT . 'youtu/api/getpersonids';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -518,7 +869,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -527,7 +878,11 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -540,7 +895,7 @@ class YouTu
     public static function getfaceids($person_id) {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/getfaceids';
+        $postUrl = Conf::$END_POINT . 'youtu/api/getfaceids';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -549,7 +904,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -558,7 +913,11 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
 
@@ -571,7 +930,7 @@ class YouTu
     public static function getfaceinfo($face_id) {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $url = Conf::API_YOUTU_END_POINT . 'youtu/api/getfaceinfo';
+        $postUrl = Conf::$END_POINT . 'youtu/api/getfaceinfo';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
@@ -580,7 +939,7 @@ class YouTu
         );
 
         $req = array(
-            'url' => $url,
+            'url' => $postUrl,
             'method' => 'post',
             'timeout' => 10,
             'data' => json_encode($post_data),
@@ -589,9 +948,267 @@ class YouTu
             ),
         );
         $rsp  = Http::send($req);
-        $ret  = json_decode($rsp, true);
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
         return $ret;
     }
+
+     /**
+     * @brief fuzzydetect
+     * @param image_path 待检测的路径
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function fuzzydetect($image_path) {
+
+        $real_image_path = realpath($image_path);
+        
+        if (!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/fuzzydetect';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "image" => base64_encode($image_data),
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        
+        if(!$ret){
+            return self::getStatusText();
+        }
+        
+        return $ret;
+    }
+
+     /**
+     * @brief fuzzydetecturl
+     * @param url 图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function fuzzydetecturl($url) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/fuzzydetect';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "url" => $url,
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        
+        return $ret;
+    }
+
+     /**
+     * @brief fooddetect
+     * @param image_path 待检测的路径
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function fooddetect($image_path) {
+
+        $real_image_path = realpath($image_path);
+        
+        if (!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/fooddetect';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "image" => base64_encode($image_data),
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        
+        return $ret;
+    }
+
+     /**
+     * @brief fooddetecturl
+     * @param url 图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function fooddetecturl($url) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/fooddetect';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "url" => $url,
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        
+        return $ret;
+    }
+
+         /**
+     * @brief imagetag
+     * @param image_path 待检测的路径
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function imagetag($image_path) {
+
+        $real_image_path = realpath($image_path);
+        
+        if (!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/imagetag';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "image" => base64_encode($image_data),
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        
+        return $ret;
+    }
+
+     /**
+     * @brief imagetagurl
+     * @param url 图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function imagetagurl($url) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/imagetag';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            "app_id" =>  Conf::$APPID,
+            "url" => $url,
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization: '.$sign,
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+         $ret  = json_decode($rsp, true);
+        
+        if(!$ret){
+            return self::getStatusText();
+        }    
+        
+        return $ret;
+    }
+
+
+
+
 }
 
 
