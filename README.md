@@ -1,6 +1,6 @@
 # TencentYoutuyun-person-face-service
 
-php sdk for [腾讯优图云人脸服务](http://open.youtu.qq.com/)
+php sdk for [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html) & [腾讯优图开放平台](http://open.youtu.qq.com)
 
 ## 安装（直接下载源码集成）
 
