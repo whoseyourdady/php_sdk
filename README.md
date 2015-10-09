@@ -2,13 +2,9 @@
 
 php sdk for [腾讯优图云人脸服务](http://open.YouTu::qq.com/)
 
-## 安装（使用composer获取或者直接下载源码集成）
+## 安装（直接下载源码集成）
 
-### 使用composer获取
-```
-php composer.phar require TencentYoutuyun/php-sdk
-```
-### 直接下载源码集成
+
 从github下载源码装入到您的程序中，并加载include.php
 
 ## 名词
@@ -16,9 +12,9 @@ php composer.phar require TencentYoutuyun/php-sdk
 - `AppId` 平台添加应用后分配的AppId
 - `SecretId` 平台添加应用后分配的SecretId
 - `SecretKey` 平台添加应用后分配的SecretKey
-- `签名` 接口鉴权凭证，由`AppId`、`SecretId`、`SecretKey`等生成，详见<http://open.YouTu::qq.com/welcome/authentication>
+- `签名` 接口鉴权凭证，由`AppId`、`SecretId`、`SecretKey`等生成，详见<http://open.youtu.qq.com/welcome/authentication>
 
-## API
+## 使用示例
 
 ```
 // 引入SDK
@@ -26,26 +22,21 @@ require('./include.php');
 use TencentYoutuyun\Youtu;
 use TencentYoutuyun\Conf;
 use TencentYoutuyun\Auth;
+
+// 设置APP 鉴权信息
+$appid='your appid';
+$secretId='your secretId ';
+$secretKey='your secretKey';
+$userid='your qq';
+//根据你使用的平台选择一种初始化方式
+//优图开放平台初始化
+Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_YOUTU_END_POINT);
+//腾讯云初始化
+Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_TENCENTYUN_END_POINT);
 ```
-### `Conf`
 
-配置项相关
 
-#### `Conf::setAppInfo(appid, secretId, secretKey, userid)`
-
-初始化配置项
-
-- 参数
-	- `appid` AppId 字符串类型
-	- `secretId` SecretId 字符串类型
-	- `secretKey` SecretKey 字符串类型
-	- `userid` 业务中的用户标识 字符串类型
-- 返回值 无（`undefined`）
-#### 其它
-
-- `conf::API_YOUTU_END_POINT` 请求的优图服务器地址 默认为 api.youtu.qq.com
-
-### `Auth`
+### `鉴权`
 
 接口调用时 计算签名鉴权相关逻辑。
 
@@ -55,26 +46,28 @@ use TencentYoutuyun\Auth;
 
 - 参数
     - `expired` 过期时间，UNIX时间戳, 计算的签名在过期时间之前有效.
-    - `userid` 业务中的用户标识
-- 返回值 签名（base64）
+    - `userid` 业务中的用户标识，填写用户QQ号即可
+- 返回值： 签名
 
 #### 其它
 
 - `auth.AUTH_PARAMS_ERROR` 参数错误常量（-1）
 - `auth.AUTH_SECRET_ID_KEY_ERROR` 密钥ID或者密钥KEY错误常量（-2）
 
-### `youtu`
+### `SDK API介绍`
 
 优图相关API封装，均为同步函数。
 
 
 #### `YouTu::detectface($image_path, $isbigface)`
+#### `YouTu::detectfaceurl($url, $isbigface)`
 
 人脸检测，检测给定图片(Image)中的所有人脸(Face)的位置和相应的面部属性。位置包括(x, y, w, h)，面部属性包括性别(gender)、年龄(age)
 表情(expression)、眼镜(glass)和姿态(pitch，roll，yaw)。
 
 - 参数
-	- `$image_path` 图片路径
+	- `$image_path` 待检测图片路径
+	- `$url` 待检测图片的url
 	- `$isbigface` 是否大脸模式 ０表示检测所有人脸， 1表示只检测照片最大人脸　适合单人照模式
 
 - 返回值
@@ -82,57 +75,68 @@ use TencentYoutuyun\Auth;
 
 
 #### `YouTu::faceshape($image_path, $isbigface)`
+#### `YouTu::faceshapeurl($url, $isbigface)`
 
 人脸定位，检测给定图片中人脸的五官。对请求图片进行人脸配准，计算构成人脸轮廓的88个点，
 包括眉毛（左右各8点）、眼睛（左右各8点）、鼻子（13点）、嘴巴（22点）、脸型轮廓（21点）
 
 - 参数
-	- `$image_path` 图片路径
+	- `$image_path` 待检测图片路径
+	- `$url` 待检测图片的url
 	- `$isbigface` 是否大脸模式 ０表示检测所有人脸， 1表示只检测照片最大人脸　适合单人照模式
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
 
 
 #### `YouTu::facecompare($image_path_a, $image_path_b)`
+#### `YouTu::facecompareurl($urlA, $urlB)`
 
 人脸对比，计算两个Face的相似性以及五官相似度。
 
 - 参数
-	- `$image_path_a` 第一张图片路径
-	- `$image_path_b` 第二张图片路径
+	- `$image_path_a` 第一张待检测图片路径
+	- `$image_path_b` 第二张待检测图片路径
+	- `$urlA` 第一张图片url
+	- `$urlB` 第二张图片url
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
 
-#### `YouTu::faceverify($image_path_a, $person_id)`
+#### `YouTu::faceverify($image_path, $person_id)`
+#### `YouTu::faceverifyurl($url,$person_id)`
 
 人脸验证，给定一个Face和一个Person，返回是否是同一个人的判断以及置信度。
 
 - 参数
-	- `$image_path_a` 图片路径
+	- `$image_path` 待检测图片路径
+	- `$url` 待检测图片的url
 	- `$person_id` 待验证的Person
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
 
-#### `YouTu::faceidentify($image_path_a, $group_id)`
-
+#### `YouTu::faceidentify($image_path, $group_id)`
+#### `YouTu::faceidentifyurl($url,$group_id)`
 人脸识别，对于一个待识别的人脸图片，在一个Group中识别出最相似的Top5 Person作为其身份返回，返回的Top5中按照相似度从大到小排列。
 
 - 参数
-	- `$image_path_a` 图片路径
+	- `$image_path` 待检测图片路径
+	- `$url` 待检测图片的url
 	- `$group_id` 需要识别的人 所在的组
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
 
-#### `YouTu::newperson($image_path_a, $person_id, $person_name, $group_ids, $persontag)`
+#### `YouTu::newperson($image_path, $person_id, array $group_ids, $person_name="", $person_tag="")`
+#### `YouTu::newpersonurl($url, $person_id, array $group_ids, $person_name="", $person_tag="")`
 
 个体创建，创建一个Person，并将Person放置到$group_ids指定的组当中。
 
 - 参数
-	- `$image_path_a` 图片路径
-	- `$person_id` 个体Person
-	- `$person_name` 个体Person的名字
+	- `$image_path` 待检测图片路径
+	- `$url` 待检测图片的url
+	- `$person_id` 个体id
+	- `$person_name` 个体的名字
 	- `$group_ids` 要加入的组的列表（数组）
-	- `$persontag` 备注信息，用户自解释字段
+	- `$person_name` 个体名称
+	- `$person_tag` 备注信息，用户自解释字段
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
 
@@ -147,12 +151,14 @@ use TencentYoutuyun\Auth;
 
 
 #### `YouTu::addface($person_id, $images, $facetag)`
+#### `YouTu::addfaceurl($person_id, $url_arr, $facetag="")`
 
 添加人脸，在创建一个Person后， 增加person下面的人脸, 可以用于后面的比对。
 
 - 参数
 	- `$person_id` 个体Person
-	- `$images` 图片路径(数组)
+	- `$images` 待检测图片路径(数组)
+	- `$url_arr` 图片url(数组)
 	- `$facetag` 人脸自定义标签
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
@@ -213,7 +219,7 @@ use TencentYoutuyun\Auth;
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
 
-### `YouTu::getfaceinfo($face_id)`
+#### `YouTu::getfaceinfo($face_id)`
 
 获取一个face的相关特征信息
 
@@ -221,8 +227,36 @@ use TencentYoutuyun\Auth;
 	- `$face_id` 需要获取的faceid
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
-	
-### 其他
 
+#### `YouTu::fuzzydetect($image_path)`
+#### `YouTu::fuzzydetecturl($url)`
 
+判断一个图像的模糊程度
 
+- 参数
+	- `$image_path` 待检测图片路径
+	- `$url` 待检测图片的url
+- 返回值
+	- 返回的结果，JSON字符串，字段参见API文档
+
+#### `YouTu::fooddetect($image_path)`
+#### `YouTu::fooddetecturl($url)`
+
+识别一个图像是否为美食图像
+
+- 参数
+	- `$image_path` 待检测图片路径
+	- `$url` 待检测图片的url
+- 返回值
+	- 返回的结果，JSON字符串，字段参见API文档
+
+#### `YouTu::imagetag($image_path)`
+#### `YouTu::imagetagurl($url)`
+
+识别一个图像的标签信息,对图像分类
+
+- 参数
+	- `$image_path` 待检测图片路径
+	- `$url` 待检测图片的url
+- 返回值
+	- 返回的结果，JSON字符串，字段参见API文档
