@@ -1,6 +1,6 @@
 # TencentYoutuyun-person-face-service
 
-php sdk for [腾讯优图云人脸服务](http://open.YouTu::qq.com/)
+php sdk for [腾讯优图云人脸服务](http://open.youtu.qq.com/)
 
 ## 安装（直接下载源码集成）
 
@@ -28,11 +28,16 @@ $appid='your appid';
 $secretId='your secretId ';
 $secretKey='your secretKey';
 $userid='your qq';
+
 //根据你使用的平台选择一种初始化方式
 //优图开放平台初始化
 Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_YOUTU_END_POINT);
 //腾讯云初始化
 Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_TENCENTYUN_END_POINT);
+
+//人脸检测接口调用
+$uploadRet = YouTu::detectface('test.jpg', 1);
+var_dump($uploadRet);
 ```
 
 
