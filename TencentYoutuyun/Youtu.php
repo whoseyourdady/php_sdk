@@ -957,14 +957,13 @@ class YouTu
     }
 
      /**
-     * @brief fuzzydetect
-     * @param image_path 待检测的路径
+     * @param $image_path 待检测的路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function fuzzydetect($image_path) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -992,22 +991,21 @@ class YouTu
         );
         $rsp  = Http::send($req);
 
-         $ret  = json_decode($rsp, true);
-        
-        if(!$ret){
-            return self::getStatusText();
-        }    
-        
+        $ret  = json_decode($rsp, true);
+
         if(!$ret){
             return self::getStatusText();
         }
-        
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+
         return $ret;
     }
 
-     /**
-     * @brief fuzzydetecturl
-     * @param url 图片url
+    /**
+     * @param $url 图片url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function fuzzydetecturl($url) {
@@ -1033,24 +1031,23 @@ class YouTu
         );
         $rsp  = Http::send($req);
 
-         $ret  = json_decode($rsp, true);
-        
+        $ret  = json_decode($rsp, true);
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
-     /**
-     * @brief fooddetect
-     * @param image_path 待检测的路径
+    /**
+     * @param $image_path 待检测的路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function fooddetect($image_path) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -1078,18 +1075,17 @@ class YouTu
         );
         $rsp  = Http::send($req);
 
-         $ret  = json_decode($rsp, true);
-        
+        $ret  = json_decode($rsp, true);
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
-     /**
-     * @brief fooddetecturl
-     * @param url 图片url
+    /**
+     * @param $url 图片url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function fooddetecturl($url) {
@@ -1115,24 +1111,23 @@ class YouTu
         );
         $rsp  = Http::send($req);
 
-         $ret  = json_decode($rsp, true);
-        
+        $ret  = json_decode($rsp, true);
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
-         /**
-     * @brief imagetag
-     * @param image_path 待检测的路径
+    /**
+     * @param $image_path 待检测的路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function imagetag($image_path) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -1160,18 +1155,17 @@ class YouTu
         );
         $rsp  = Http::send($req);
 
-         $ret  = json_decode($rsp, true);
-        
+        $ret  = json_decode($rsp, true);
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
-     /**
-     * @brief imagetagurl
-     * @param url 图片url
+    /**
+     * @param $url 图片url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function imagetagurl($url) {
@@ -1197,18 +1191,14 @@ class YouTu
         );
         $rsp  = Http::send($req);
 
-         $ret  = json_decode($rsp, true);
-        
+        $ret  = json_decode($rsp, true);
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
-
-
-
-
 }
 
 
