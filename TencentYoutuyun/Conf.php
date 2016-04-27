@@ -29,7 +29,7 @@ class Conf
 
 
     // 初始化 应用信息 
-    public static function setAppInfo($appid, $secretId, $secretKey, $userid,$end_point) {
+    public static function setAppInfo($appid, $secretId, $secretKey, $userid, $end_point = self::API_YOUTU_END_POINT) {
         
         self::$APPID = $appid;
         self::$SECRET_ID = $secretId;

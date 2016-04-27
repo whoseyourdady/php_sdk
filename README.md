@@ -265,3 +265,38 @@ var_dump($uploadRet);
 	- `$url` 待检测图片的url
 - 返回值
 	- 返回的结果，JSON字符串，字段参见API文档
+	
+#### `YouTu::imageporn($image_path)`
+#### `YouTu::imagepornurl($url)`
+色情图像检测
+- 参数
+    - `$image_path` 待检测图片路径
+    - `$url`待检测图片的url
+    
+```
+```
+
+#### `YouTu::idcardocr($image_path,  $card_type, $seq = '') `
+#### `YouTu::idcardocrurl($url,  $card_type, $seq = '') `
+身份证OCR识别
+
+- 参数
+    - `$image_path` 待检测图片路径
+    - `$url`待检测图片的url
+    - `$card_type` 0 代表输入图像是身份证正面， 1代表输入是身份证反面
+    
+#### `YouTu::namecardocr($image_path,  $retimage, $seq = '') `
+#### `YouTu::namecardocrurl($url,  $retimage, $seq = '') `
+名片ocr识别
+
+- 参数
+    - `$image_path` 待检测图片路径
+    - `$url`待检测图片的url
+    - `$retimage` 0代表不需要返回识别后图像， 1代表需要返回识别后图像
+    
+```
+```
+更多详情和文档说明参见
+[腾讯云智能优图服务](http://www.qcloud.com/product/fr.html)
+[腾讯优图开放平台](http://open.youtu.qq.com)
+
