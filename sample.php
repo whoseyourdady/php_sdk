@@ -7,10 +7,10 @@ use TencentYoutuyun\Conf;
 
 // 设置APP 鉴权信息 请在http://open.youtu.qq.com 创建应用
 
-$appid='10000010';
-$secretId='AKIDOiuFc9M6mTtMUmK8GbWMczOKyWn464Rn';
-$secretKey='mSh3ULXSJ1qMk6gXDEvbLJJwuVP1jelY';
-$userid='267266206';
+$appid='x';
+$secretId='x';
+$secretKey='x';
+$userid='x';
 
 
 Conf::setAppInfo($appid, $secretId, $secretKey, $userid );
