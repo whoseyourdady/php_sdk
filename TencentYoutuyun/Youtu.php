@@ -8,14 +8,14 @@ class YouTu
     const EXPIRED_SECONDS = 2592000;
     const HTTP_BAD_REQUEST = 400;
     const HTTP_SERVER_ERROR = 500;
-    
+
     /**
-     * return the status message 
+     * return the status message
      */
     public static function statusText($status) {
 
         $statusText = 'UNKOWN';
-        
+
         switch ($status) {
         case 0:
           $statusText = 'CONNECT_FAIL';
@@ -61,11 +61,11 @@ class YouTu
     }
 
 /**
-     * return the status message 
+     * return the status message
      */
     public static function getStatusText() {
-
-        $status=Http::info()['http_code'];
+        $info=Http::info();
+        $status=$info['http_code'];
         return self::statusText($status);
     }
 
@@ -78,7 +78,7 @@ class YouTu
     public static function detectface($image_path, $isbigface) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -109,11 +109,11 @@ class YouTu
         $rsp  = Http::send($req);
 
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
@@ -149,11 +149,11 @@ class YouTu
         $rsp  = Http::send($req);
 
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
@@ -166,7 +166,7 @@ class YouTu
     public static function faceshape($image_path, $isbigface) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -197,13 +197,13 @@ class YouTu
         $rsp  = Http::send($req);
 
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
-    
+
       /**
      * @brief faceshapeurl
      * @param url 图片url
@@ -236,11 +236,11 @@ class YouTu
         $rsp  = Http::send($req);
 
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
@@ -290,13 +290,13 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
-    
+
 	/**
 	 * @brief facecompareurl
 	 * @param urlA 待比对的A图片url
@@ -328,14 +328,14 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
- 
+
 
     /**
      * @brief faceverify
@@ -346,7 +346,7 @@ class YouTu
     public static function faceverify($image_path,$person_id) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -375,10 +375,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -412,10 +412,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -426,11 +426,11 @@ class YouTu
      * @param image_path 待识别的图片路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-         
+
     public static function faceidentify($image_path,$group_id) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -459,10 +459,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -472,7 +472,7 @@ class YouTu
      * @param url 待识别的图片的url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-         
+
     public static function faceidentifyurl($url,$group_id) {
 
         $expired = time() + self::EXPIRED_SECONDS;
@@ -497,10 +497,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -513,7 +513,7 @@ class YouTu
 	 * @param person_tag 备注信息，用户自解释字段
 	* @return 返回的结果，JSON字符串，字段参见API文档
 	 */
-         
+
     public static function newperson($image_path, $person_id, array $group_ids, $person_name="", $person_tag="") {
         $real_image_path = realpath($image_path);
         if (!file_exists($real_image_path))
@@ -526,7 +526,7 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $image_data = file_get_contents($real_image_path);
-        
+
         $post_data = array(
             "app_id" =>  Conf::$APPID,
             "image" =>  base64_encode($image_data),
@@ -548,10 +548,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -564,7 +564,7 @@ class YouTu
      * @param person_tag 备注信息，用户自解释字段
     * @return 返回的结果，JSON字符串，字段参见API文档
      */
-         
+
     public static function newpersonurl($url, $person_id, array $group_ids, $person_name="", $person_tag="") {
 
         $expired = time() + self::EXPIRED_SECONDS;
@@ -592,10 +592,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -628,10 +628,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -676,10 +676,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -691,7 +691,7 @@ class YouTu
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function addfaceurl($person_id,array $url_arr, $facetag="") {
-   
+
         $expired = time() + self::EXPIRED_SECONDS;
         $postUrl = Conf::$END_POINT . 'youtu/api/addface';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
@@ -715,10 +715,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -753,10 +753,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -793,10 +793,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -829,10 +829,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -863,10 +863,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -899,10 +899,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -935,10 +935,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -971,10 +971,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
