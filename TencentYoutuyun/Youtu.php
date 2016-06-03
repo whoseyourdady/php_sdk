@@ -65,7 +65,8 @@ class YouTu
      */
     public static function getStatusText() {
 
-        $status=Http::info()['http_code'];
+        $info=Http::info();
+        $status=$info['http_code'];
         return self::statusText($status);
     }
 
