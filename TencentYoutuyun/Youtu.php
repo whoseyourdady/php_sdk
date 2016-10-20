@@ -8,15 +8,14 @@ class YouTu
     const EXPIRED_SECONDS = 2592000;
     const HTTP_BAD_REQUEST = 400;
     const HTTP_SERVER_ERROR = 500;
-    
-    /**
-     * return the status message 
-     */
-    public static function statusText($status) {
 
-        $statusText = 'UNKOWN';
-        
-        switch ($status) {
+    /**
+     * return the status message
+     */
+    public static function statusText($status)
+    {
+        switch ($status)
+        {
         case 0:
           $statusText = 'CONNECT_FAIL';
           break;
@@ -56,12 +55,15 @@ class YouTu
         case 504:
           $statusText = 'GATEWAY_TIME_OUT';
           break;
+        default:
+            $statusText =$status;
+            break;
         }
         return $statusText;
     }
 
-/**
-     * return the status message 
+    /**
+     * return the status message
      */
     public static function getStatusText() {
 
@@ -79,7 +81,7 @@ class YouTu
     public static function detectface($image_path, $isbigface) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -91,9 +93,9 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" => base64_encode($image_data),
-            "mode" => $isbigface
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
+            'mode' => $isbigface
         );
 
         $req = array(
@@ -110,11 +112,11 @@ class YouTu
         $rsp  = Http::send($req);
 
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
@@ -131,9 +133,9 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" => $url,
-            "mode" => $isbigface
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
+            'mode' => $isbigface
         );
 
         $req = array(
@@ -150,11 +152,11 @@ class YouTu
         $rsp  = Http::send($req);
 
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
@@ -167,7 +169,7 @@ class YouTu
     public static function faceshape($image_path, $isbigface) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -179,9 +181,9 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" => base64_encode($image_data),
-            "mode" => $isbigface
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
+            'mode' => $isbigface
         );
 
         $req = array(
@@ -198,13 +200,13 @@ class YouTu
         $rsp  = Http::send($req);
 
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
-    
+
       /**
      * @brief faceshapeurl
      * @param url 图片url
@@ -218,9 +220,9 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" => $url,
-            "mode" => $isbigface
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
+            'mode' => $isbigface
         );
 
         $req = array(
@@ -237,11 +239,11 @@ class YouTu
         $rsp  = Http::send($req);
 
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
-        
+        }
+
         return $ret;
     }
 
@@ -273,9 +275,9 @@ class YouTu
         $image_data_b = file_get_contents($real_image_path_b);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "imageA" =>  base64_encode($image_data_a),
-            "imageB" =>  base64_encode($image_data_b)
+            'app_id' =>  Conf::$APPID,
+            'imageA' =>  base64_encode($image_data_a),
+            'imageB' =>  base64_encode($image_data_b)
         );
 
         $req = array(
@@ -291,13 +293,13 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
-    
+
 	/**
 	 * @brief facecompareurl
 	 * @param urlA 待比对的A图片url
@@ -311,9 +313,9 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "urlA" => $urlA,
-            "urlB" => $urlB
+            'app_id' =>  Conf::$APPID,
+            'urlA' => $urlA,
+            'urlB' => $urlB
         );
 
         $req = array(
@@ -329,14 +331,14 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
- 
+
 
     /**
      * @brief faceverify
@@ -347,7 +349,7 @@ class YouTu
     public static function faceverify($image_path,$person_id) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -359,9 +361,9 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" =>  base64_encode($image_data),
-            "person_id" =>$person_id,
+            'app_id' =>  Conf::$APPID,
+            'image' =>  base64_encode($image_data),
+            'person_id' =>$person_id,
         );
 
         $req = array(
@@ -376,10 +378,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -396,9 +398,9 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" =>  $url,
-            "person_id" =>$person_id,
+            'app_id' =>  Conf::$APPID,
+            'url' =>  $url,
+            'person_id' =>$person_id,
         );
 
         $req = array(
@@ -413,10 +415,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -427,11 +429,11 @@ class YouTu
      * @param image_path 待识别的图片路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-         
+
     public static function faceidentify($image_path,$group_id) {
 
         $real_image_path = realpath($image_path);
-        
+
         if (!file_exists($real_image_path))
         {
             return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
@@ -443,9 +445,9 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" =>  base64_encode($image_data),
-            "group_id" =>$group_id,
+            'app_id' =>  Conf::$APPID,
+            'image' =>  base64_encode($image_data),
+            'group_id' =>$group_id,
         );
 
         $req = array(
@@ -460,10 +462,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -473,7 +475,7 @@ class YouTu
      * @param url 待识别的图片的url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-         
+
     public static function faceidentifyurl($url,$group_id) {
 
         $expired = time() + self::EXPIRED_SECONDS;
@@ -481,9 +483,9 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" =>  $url,
-            "group_id" =>$group_id,
+            'app_id' =>  Conf::$APPID,
+            'url' =>  $url,
+            'group_id' =>$group_id,
         );
 
         $req = array(
@@ -498,10 +500,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -514,8 +516,8 @@ class YouTu
 	 * @param person_tag 备注信息，用户自解释字段
 	* @return 返回的结果，JSON字符串，字段参见API文档
 	 */
-         
-    public static function newperson($image_path, $person_id, array $group_ids, $person_name="", $person_tag="") {
+
+    public static function newperson($image_path, $person_id, array $group_ids, $person_name='', $person_tag='') {
         $real_image_path = realpath($image_path);
         if (!file_exists($real_image_path))
         {
@@ -527,14 +529,14 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $image_data = file_get_contents($real_image_path);
-        
+
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" =>  base64_encode($image_data),
-            "person_id" =>$person_id,
-            "group_ids" =>$group_ids,
-            "person_name" =>$person_name,
-            "tag" => $person_tag
+            'app_id' =>  Conf::$APPID,
+            'image' =>  base64_encode($image_data),
+            'person_id' =>$person_id,
+            'group_ids' =>$group_ids,
+            'person_name' =>$person_name,
+            'tag' => $person_tag
         );
 
         $req = array(
@@ -549,10 +551,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -565,20 +567,20 @@ class YouTu
      * @param person_tag 备注信息，用户自解释字段
     * @return 返回的结果，JSON字符串，字段参见API文档
      */
-         
-    public static function newpersonurl($url, $person_id, array $group_ids, $person_name="", $person_tag="") {
+
+    public static function newpersonurl($url, $person_id, array $group_ids, $person_name='', $person_tag='') {
 
         $expired = time() + self::EXPIRED_SECONDS;
         $postUrl = Conf::$END_POINT . 'youtu/api/newperson';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" =>  $url,
-            "person_id" =>$person_id,
-            "group_ids" =>$group_ids,
-            "person_name" =>$person_name,
-            "tag" => $person_tag
+            'app_id' =>  Conf::$APPID,
+            'url' =>  $url,
+            'person_id' =>$person_id,
+            'group_ids' =>$group_ids,
+            'person_name' =>$person_name,
+            'tag' => $person_tag
         );
 
         $req = array(
@@ -593,10 +595,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -613,8 +615,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "person_id" =>$person_id,
+            'app_id' =>  Conf::$APPID,
+            'person_id' =>$person_id,
         );
 
         $req = array(
@@ -629,10 +631,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -644,7 +646,7 @@ class YouTu
      * @param facetag 人脸备注信息，用户自解释字段
 	 * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function addface($person_id,array $image_path_arr, $facetag="") {
+    public static function addface($person_id,array $image_path_arr, $facetag='') {
         $image_data_arr=array();
         foreach($image_path_arr as $one_path){
             if (!file_exists($one_path))
@@ -659,10 +661,10 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "images" =>  $image_data_arr,
-            "person_id" =>$person_id,
-            "tag" => $facetag
+            'app_id' =>  Conf::$APPID,
+            'images' =>  $image_data_arr,
+            'person_id' =>$person_id,
+            'tag' => $facetag
         );
 
         $req = array(
@@ -677,10 +679,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -691,17 +693,17 @@ class YouTu
      * @param facetag 人脸备注信息，用户自解释字段
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function addfaceurl($person_id,array $url_arr, $facetag="") {
-   
+    public static function addfaceurl($person_id,array $url_arr, $facetag='') {
+
         $expired = time() + self::EXPIRED_SECONDS;
         $postUrl = Conf::$END_POINT . 'youtu/api/addface';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "urls" =>  $url_arr,
-            "person_id" =>$person_id,
-            "tag" => $facetag
+            'app_id' =>  Conf::$APPID,
+            'urls' =>  $url_arr,
+            'person_id' =>$person_id,
+            'tag' => $facetag
         );
 
         $req = array(
@@ -716,10 +718,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -737,9 +739,9 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "face_ids" => $face_id_arr,
-            "person_id" =>$person_id,
+            'app_id' =>  Conf::$APPID,
+            'face_ids' => $face_id_arr,
+            'person_id' =>$person_id,
         );
 
         $req = array(
@@ -754,10 +756,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -776,10 +778,10 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "person_name" =>  $person_name,
-            "person_id" =>$person_id,
-            "tag" => $person_tag
+            'app_id' =>  Conf::$APPID,
+            'person_name' =>  $person_name,
+            'person_id' =>$person_id,
+            'tag' => $person_tag
         );
 
         $req = array(
@@ -794,10 +796,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -814,8 +816,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "person_id" =>$person_id,
+            'app_id' =>  Conf::$APPID,
+            'person_id' =>$person_id,
         );
 
         $req = array(
@@ -830,10 +832,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -849,7 +851,7 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID
+            'app_id' =>  Conf::$APPID
         );
 
         $req = array(
@@ -864,10 +866,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -884,8 +886,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "group_id" =>$group_id,
+            'app_id' =>  Conf::$APPID,
+            'group_id' =>$group_id,
         );
 
         $req = array(
@@ -900,10 +902,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -920,8 +922,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "person_id" =>$person_id,
+            'app_id' =>  Conf::$APPID,
+            'person_id' =>$person_id,
         );
 
         $req = array(
@@ -936,10 +938,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -956,8 +958,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "face_id" =>$face_id,
+            'app_id' =>  Conf::$APPID,
+            'face_id' =>$face_id,
         );
 
         $req = array(
@@ -972,10 +974,10 @@ class YouTu
         );
         $rsp  = Http::send($req);
          $ret  = json_decode($rsp, true);
-        
+
         if(!$ret){
             return self::getStatusText();
-        }    
+        }
         return $ret;
     }
 
@@ -998,8 +1000,8 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" => base64_encode($image_data),
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
         );
 
         $req = array(
@@ -1039,8 +1041,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" => $url,
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
         );
 
         $req = array(
@@ -1084,8 +1086,8 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" => base64_encode($image_data),
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
         );
 
         $req = array(
@@ -1121,8 +1123,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" => $url,
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
         );
 
         $req = array(
@@ -1166,8 +1168,8 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" => base64_encode($image_data),
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
         );
 
         $req = array(
@@ -1203,8 +1205,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" => $url,
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
         );
 
         $req = array(
@@ -1228,7 +1230,7 @@ class YouTu
 
         return $ret;
     }
-    
+
      /**
      * @param $image_path 待检测的路径
      * @return 返回的结果，JSON字符串，字段参见API文档
@@ -1248,8 +1250,8 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" => base64_encode($image_data),
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
         );
 
         $req = array(
@@ -1285,8 +1287,8 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" => $url,
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
         );
 
         $req = array(
@@ -1310,9 +1312,9 @@ class YouTu
 
         return $ret;
     }
-    
-    
-    
+
+
+
     /**
      * @param $url 图片url
      * @param $card_type 身份证照片类型，0 表示身份证正面， 1表示身份证反面
@@ -1333,10 +1335,10 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" => base64_encode($image_data),
-            "seq" => $seq,
-            "card_type" => $card_type,
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
+            'seq' => $seq,
+            'card_type' => $card_type,
         );
 
         $req = array(
@@ -1373,10 +1375,10 @@ class YouTu
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" => $url,
-            "seq" => $seq,
-            "card_type" => $card_type,
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
+            'seq' => $seq,
+            'card_type' => $card_type,
         );
 
         $req = array(
@@ -1400,8 +1402,8 @@ class YouTu
 
         return $ret;
     }
-    
-    
+
+
     /**
      * @param $image_path 待检测的路径
      * @param $retimage 是否返回名片图像
@@ -1422,10 +1424,10 @@ class YouTu
 
         $image_data = file_get_contents($real_image_path);
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "image" => base64_encode($image_data),
-             "seq" => $seq,
-            "retimage"=> (bool)$retimage
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
+             'seq' => $seq,
+            'retimage'=> (bool)$retimage
         );
 
         $req = array(
@@ -1455,19 +1457,20 @@ class YouTu
      * @param $retimage 是否返回名片图像
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function namecardocrurl($url, $retimage = 1, $seq = '') {
+    public static function namecardocrurl($url, $retimage = 1, $seq = '')
+    {
 
         $expired = time() + self::EXPIRED_SECONDS;
         $postUrl = Conf::$END_POINT . 'youtu/ocrapi/namecardocr';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
-   
+
         $post_data = array(
-            "app_id" =>  Conf::$APPID,
-            "url" => $url,
-            "seq" => $seq,
-            "retimage"=> (bool)$retimage
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
+            'seq' => $seq,
+            'retimage'=> (bool)$retimage
         );
-        
+
 
         $req = array(
             'url' => $postUrl,
@@ -1490,6 +1493,195 @@ class YouTu
 
         return $ret;
     }
+
+    public static function livegetfour($seq = '')
+    {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/openliveapi/livegetfour';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'seq' => $seq
+        );
+
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    public static function livedetectfour($validate_data,$video_path,$card_path,$compare_card=false,$seq = '')
+    {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/openliveapi/livedetectfour';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $real_video_path = realpath($video_path);
+        if (!file_exists($real_video_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$video_path.' not exists', 'data' => array());
+        }
+
+        $video_data = file_get_contents($real_video_path);
+
+        if($compare_card)
+        {
+          $real_card_path = realpath($card_path);
+          if (!file_exists($real_card_path))
+          {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$card_path.' not exists', 'data' => array());
+          }
+
+          $card_data = file_get_contents($real_card_path);
+          $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'validate_data' =>  $validate_data,
+            'compare_flag' => true,
+            'video' =>  base64_encode($video_data),
+            'card' =>  base64_encode($card_data),
+            'seq' => $seq
+            );
+        }
+        else
+        {
+            $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'validate_data' =>  $validate_data,
+            'compare_flag' => false,
+            'video' =>  base64_encode($video_data),
+            'seq' => $seq
+            );
+        }
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    public static function idcardlivedetectfour($idcard_number,$idcard_name,$validate_data,$video_path,$seq = '')
+    {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/openliveapi/idcardlivedetectfour';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $real_video_path = realpath($video_path);
+        if (!file_exists($real_video_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$video_path.' not exists', 'data' => array());
+        }
+
+        $video_data = file_get_contents($real_video_path);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'idcard_number' =>  $idcard_number,
+            'idcard_name' =>  $idcard_name,
+            'validate_data' =>  $validate_data,
+            'video' =>  base64_encode($video_data),
+            'seq' => $seq
+        );
+
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    public static function idcardfacecompare($idcard_number,$idcard_name,$image_path,$seq = '')
+    {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/openliveapi/idcardfacecompare';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $real_image_path = realpath($image_path);
+        if (!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
+        }
+
+        $image_data = file_get_contents($real_image_path);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'idcard_number' =>  $idcard_number,
+            'idcard_name' =>  $idcard_name,
+            'image' =>  base64_encode($image_data),
+            'seq' => $seq
+        );
+
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
 }
-
-
