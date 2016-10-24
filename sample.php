@@ -13,7 +13,7 @@ $secretKey='x';
 $userid='x';
 
 
-Conf::setAppInfo($appid, $secretId, $secretKey, $userid );
+Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_YOUTU_END_POINT );
 
 
 // 人脸检测 调用列子

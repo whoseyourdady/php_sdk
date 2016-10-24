@@ -5,8 +5,8 @@ class Conf
 {
     const PKG_VERSION = '1.0.*';
 
-    const API_YOUTU_END_POINT = 'https://vip-api.youtu.qq.com/';
-    const API_YOUTU_CHARGE_END_POINT = 'http://api.youtu.qq.com/';
+    const API_YOUTU_END_POINT = 'http://api.youtu.qq.com/';
+    const API_YOUTU_CHARGE_END_POINT = 'https://vip-api.youtu.qq.com/';
     const API_TENCENTYUN_END_POINT = 'https://youtu.api.qcloud.com/';
 
 
