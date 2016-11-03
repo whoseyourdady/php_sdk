@@ -31,13 +31,13 @@ $secretKey='your secretKey';
 $userid='your qq';
 
 ###根据你使用的平台选择一种初始化方式
-* 优图开放平台初始化
+* 优图开放平台初始化  
 Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_YOUTU_END_POINT);
 
-* 优图开放平台核身服务初始化（**核身服务目前仅支持核身专有接口,需要联系商务开通**）
+* 优图开放平台核身服务初始化（**核身服务目前仅支持核身专有接口,需要联系商务开通**）    
 Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_YOUTU_CHARGE_END_POINT);
 
-* 腾讯云初始化
+* 腾讯云初始化     
 Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_TENCENTYUN_END_POINT);
 
 //人脸检测接口调用示例
