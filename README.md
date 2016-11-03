@@ -14,9 +14,7 @@ php sdk for [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html)
 	- `SecretKey` 平台添加应用后分配的SecretKey
 	- `签名` 接口鉴权凭证，由`AppId`、`SecretId`、`SecretKey`等生成，详见<http://open.youtu.qq.com/welcome/authentication>
 
-##说明
-* https://api.youtu.qq.com/
-* df
+
 
 ## 使用示例
 
