@@ -18,13 +18,13 @@ php sdk for [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html)
 
 ## 使用示例
 
-// 引入SDK
+// 引入SDK  
 require('./include.php');
 use TencentYoutuyun\Youtu;
 use TencentYoutuyun\Conf;
 use TencentYoutuyun\Auth;
 
-// 设置APP 鉴权信息
+// 设置APP 鉴权信息  
 $appid='your appid';
 $secretId='your secretId ';
 $secretKey='your secretKey';
@@ -40,7 +40,7 @@ Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_YOUTU_CHARGE_E
 * 腾讯云初始化     
 Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_TENCENTYUN_END_POINT);
 
-//人脸检测接口调用示例
+//人脸检测接口调用示例  
 $uploadRet = YouTu::detectface('test.jpg', 1);
 var_dump($uploadRet);
 
