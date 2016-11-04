@@ -319,7 +319,9 @@ Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_TENCENTYUN_END
 		- `$idcard_number`  身份证号码
     	- `$idcard_name`  身份证姓名
     	- `$image_path`  照片的路径
-更多详情和文档说明参见
-[腾讯云智能优图服务](http://www.qcloud.com/product/fr.html)
-[腾讯优图开放平台](http://open.youtu.qq.com)
+
+
+####更多详情和文档说明参见
+* [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html)
+* [腾讯优图开放平台](http://open.youtu.qq.com)
 
