@@ -76,7 +76,7 @@ var_dump($uploadRet);
 
      
 ***      
- #####Api分为开放平台API和核身API，**核身API访问权限需要联系商务开通**；开放平台API访问域名为https://api.youtu.qq.com/， 核身API访问域名为https://vip-api.youtu.qq.com/
+ ##### Api分为开放平台API和核身API，**核身API访问权限需要联系商务开通**；开放平台API访问域名为https://api.youtu.qq.com/， 核身API访问域名为https://vip-api.youtu.qq.com/
 ***
 
 ### `核身API介绍`
