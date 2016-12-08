@@ -74,7 +74,81 @@ var_dump($uploadRet);
 	- `auth.AUTH_PARAMS_ERROR` 参数错误常量（-1）
 	- `auth.AUTH_SECRET_ID_KEY_ERROR` 密钥ID或者密钥KEY错误常量（-2）
 
-### `SDK API介绍`
+     
+***      
+ #####Api分为开放平台API和核身API，**核身API访问权限需要联系商务开通**；开放平台API访问域名为https://api.youtu.qq.com/， 核身API访问域名为https://vip-api.youtu.qq.com/
+***
+
+### `核身API介绍`
+优图开放平台相关核身API封装，均为同步函数，**需要联系商务开通**
+***
+* `YouTu::livegetfour() `
+
+	获取四字唇语
+
+	- 参数
+    	- `$image_path` 无
+
+
+* `YouTu::livedetectfour($validate_data,$video_path,$card_path,$compare_card=false,$seq = '') `
+
+	带数据源四字人脸核身
+
+	- 参数
+    	- `$validate_data`  livegetfour获取的四字唇语
+    	- `$video_path`  视频的路径
+    	- `$card_path`  对比照片的路径
+    	- `$compare_card`  视频与照片是否进行对比，true 对比 false不对比
+
+
+* `YouTu::idcardlivedetectfour($idcard_number,$idcard_name,$validate_data,$video_path,$seq = '') `
+
+	不带数据源四字人脸核身
+
+	- 参数
+		- `$idcard_number`  身份证号码
+    	- `$idcard_name`  身份证姓名
+    	- `$validate_data`  livegetfour获取的四字唇语
+    	- `$video_path`  视频的路径
+
+
+
+* `YouTu::idcardfacecompare($idcard_number,$idcard_name,$image_path,$seq = '') `
+
+	不带数据源人脸对比
+
+	- 参数
+		- `$idcard_number`  身份证号码
+    	- `$idcard_name`  身份证姓名
+    	- `$image_path`  照片的路径
+
+
+* `YouTu::idcardocr($image_path,  $card_type, $seq = '') `
+* `YouTu::idcardocrurl($url,  $card_type, $seq = '') `
+
+	身份证OCR识别
+
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
+    	- `$card_type` 0 代表输入图像是身份证正面， 1代表输入是身份证反面
+
+
+* `YouTu::facecompare($image_path_a, $image_path_b)`
+* `YouTu::facecompareurl($urlA, $urlB)`
+
+	人脸对比，计算两个Face的相似性以及五官相似度。
+
+	- 参数
+		- `$image_path_a` 第一张待检测图片路径
+		- `$image_path_b` 第二张待检测图片路径
+		- `$urlA` 第一张图片url
+		- `$urlB` 第二张图片url
+
+
+
+
+### `开放平台API介绍`
 
 优图开放平台相关API封装，均为同步函数
 
@@ -282,51 +356,6 @@ var_dump($uploadRet);
     	- `$image_path` 待检测图片路径
     	- `$url`待检测图片的url
     	- `$retimage` 0代表不需要返回识别后图像， 1代表需要返回识别后图像
-
-### `核身SDK API介绍`
-
-优图开放平台相关核身API封装，均为同步函数，需要联系商务开通
-***
-* `YouTu::livegetfour() `
-
-	获取四字唇语
-
-	- 参数
-    	- `$image_path` 无
-
-
-* `YouTu::livedetectfour($validate_data,$video_path,$card_path,$compare_card=false,$seq = '') `
-
-	带数据源四字人脸核身
-
-	- 参数
-    	- `$validate_data`  livegetfour获取的四字唇语
-    	- `$video_path`  视频的路径
-    	- `$card_path`  对比照片的路径
-    	- `$compare_card`  视频与照片是否进行对比，true 对比 false不对比
-
-
-* `YouTu::idcardlivedetectfour($idcard_number,$idcard_name,$validate_data,$video_path,$seq = '') `
-
-	不带数据源四字人脸核身
-
-	- 参数
-		- `$idcard_number`  身份证号码
-    	- `$idcard_name`  身份证姓名
-    	- `$validate_data`  livegetfour获取的四字唇语
-    	- `$video_path`  视频的路径
-
-
-
-* `YouTu::idcardfacecompare($idcard_number,$idcard_name,$image_path,$seq = '') `
-
-	不带数据源人脸对比
-
-	- 参数
-		- `$idcard_number`  身份证号码
-    	- `$idcard_name`  身份证姓名
-    	- `$image_path`  照片的路径
-
 
 ####更多详情和文档说明参见
 * [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html)
