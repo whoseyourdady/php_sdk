@@ -123,6 +123,15 @@ var_dump($uploadRet);
     	- `$image_path`  照片的路径
 
 
+* `YouTu::validateidcard($idcard_number,$idcard_name,$seq = '') `
+
+	验证身份证信息的有效性
+
+	- 参数
+		- `$idcard_number`  身份证号码
+    	- `$idcard_name`  身份证姓名
+
+
 * `YouTu::idcardocr($image_path,  $card_type, $seq = '') `
 * `YouTu::idcardocrurl($url,  $card_type, $seq = '') `
 

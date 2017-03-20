@@ -1682,4 +1682,40 @@ class YouTu
         return $ret;
     }
 
+    public static function validateidcard($idcard_number,$idcard_name,$seq = '')
+    {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/openliveapi/validateidcard';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'idcard_number' =>  $idcard_number,
+            'idcard_name' =>  $idcard_name,
+            'seq' => $seq
+        );
+
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
 }
