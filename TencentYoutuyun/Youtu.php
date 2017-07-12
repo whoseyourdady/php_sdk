@@ -1803,7 +1803,7 @@ class YouTu
      * @param $image_path 待检测的路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function driverlicenseocr($image_path) {
+    public static function driverlicenseocr($image_path, $card_type) {
 
         $real_image_path = realpath($image_path);
         if(!file_exists($real_image_path))
@@ -1819,6 +1819,7 @@ class YouTu
 
         $post_data = array(
             'app_id' =>  Conf::$APPID,
+            'type' => $card_type,
             'image' =>  base64_encode($image_data)
         );
 
@@ -1847,14 +1848,15 @@ class YouTu
      * @param $url 待检测的图片url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function driverlicenseocrurl($url) {
+    public static function driverlicenseocrurl($url, $card_type) {
 
         $expired = time() + self::EXPIRED_SECONDS;
-        $postUrl = Conf::$END_POINT . '/youtu/ocrapi/driverlicenseocr';
+        $postUrl = Conf::$END_POINT . 'youtu/ocrapi/driverlicenseocr';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
             'app_id' =>  Conf::$APPID,
+            'type' => $card_type,
             'url' => $url
         );
 
