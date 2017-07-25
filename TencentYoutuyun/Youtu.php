@@ -1801,6 +1801,7 @@ class YouTu
 
     /**
      * @param $image_path 待检测的路径
+     * @param $card_type  图片类型:行驶证/驾驶证 0/1
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
     public static function driverlicenseocr($image_path, $card_type) {
