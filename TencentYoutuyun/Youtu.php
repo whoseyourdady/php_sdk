@@ -1723,7 +1723,7 @@ class YouTu
      * @param $image_path 待检测的路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function generalocr($image_path) {
+    public static function generalocr($image_path, $seq='') {
 
         $real_image_path = realpath($image_path);
         if(!file_exists($real_image_path))
@@ -1767,7 +1767,7 @@ class YouTu
      * @param $url 待检测的图片url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function generalocrurl($url) {
+    public static function generalocrurl($url, $seq='') {
 
         $expired = time() + self::EXPIRED_SECONDS;
         $postUrl = Conf::$END_POINT . 'youtu/ocrapi/generalocr';
@@ -1804,7 +1804,7 @@ class YouTu
      * @param $card_type  图片类型:行驶证/驾驶证 0/1
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function driverlicenseocr($image_path, $card_type) {
+    public static function driverlicenseocr($image_path, $card_type, $seq='') {
 
         $real_image_path = realpath($image_path);
         if(!file_exists($real_image_path))
@@ -1849,7 +1849,7 @@ class YouTu
      * @param $url 待检测的图片url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function driverlicenseocrurl($url, $card_type) {
+    public static function driverlicenseocrurl($url, $card_type, $seq='') {
 
         $expired = time() + self::EXPIRED_SECONDS;
         $postUrl = Conf::$END_POINT . 'youtu/ocrapi/driverlicenseocr';
@@ -1886,7 +1886,7 @@ class YouTu
      * @param $image_path 待检测的路径
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function bcocr($image_path) {
+    public static function bcocr($image_path, $seq='') {
 
         $real_image_path = realpath($image_path);
         if(!file_exists($real_image_path))
@@ -1930,7 +1930,7 @@ class YouTu
      * @param $url 待检测的图片url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
-    public static function bcocrurl($url) {
+    public static function bcocrurl($url, $seq='') {
 
         $expired = time() + self::EXPIRED_SECONDS;
         $postUrl = Conf::$END_POINT . '/youtu/ocrapi/bcocr';

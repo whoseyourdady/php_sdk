@@ -365,6 +365,38 @@ var_dump($uploadRet);
     	- `$url`待检测图片的url
     	- `$retimage` 0代表不需要返回识别后图像， 1代表需要返回识别后图像
 
+
+* `YouTu::generalocr($image_path, $seq = '') `
+* `YouTu::generalocrurl($url, $seq = '') `
+
+	通用OCR识别
+
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
+
+
+* `YouTu::bcocr($image_path, $seq = '') `
+* `YouTu::bcocrurl($url, $seq = '') `
+
+	名片OCR识别
+
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
+
+
+* `YouTu::driverlicenseocr($image_path,  $card_type, $seq = '') `
+* `YouTu::driverlicenseocrurl($url,  $card_type, $seq = '') `
+
+	行驶证&驾驶证OCR识别
+
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
+    	- `$card_type` 0 代表输入图像是行驶证， 1代表输入图像是驾驶证
+
+
 ####更多详情和文档说明参见
 * [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html)
 * [腾讯优图开放平台](http://open.youtu.qq.com)
