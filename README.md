@@ -347,7 +347,7 @@ var_dump($uploadRet);
 * `YouTu::idcardocr($image_path,  $card_type, $seq = '') `
 * `YouTu::idcardocrurl($url,  $card_type, $seq = '') `
 
-	名片ocr识别
+	身份证ocr识别
 
 	- 参数
     	- `$image_path` 待检测图片路径
