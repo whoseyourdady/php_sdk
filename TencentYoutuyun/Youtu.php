@@ -1403,54 +1403,6 @@ class YouTu
 
 
     /**
-     * @param $image_path 待检测的路径
-     * @param $retimage 是否返回名片图像
-     * @return 返回的结果，JSON字符串，字段参见API文档
-     */
-    public static function namecardocr($image_path, $retimage = 1, $seq = '') {
-
-        $real_image_path = realpath($image_path);
-
-        if (!file_exists($real_image_path))
-        {
-            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
-        }
-
-        $expired = time() + self::EXPIRED_SECONDS;
-        $postUrl = Conf::$END_POINT . 'youtu/ocrapi/namecardocr';
-        $sign = Auth::appSign($expired, Conf::$USER_ID);
-
-        $image_data = file_get_contents($real_image_path);
-        $post_data = array(
-            'app_id' =>  Conf::$APPID,
-            'image' => base64_encode($image_data),
-             'seq' => $seq,
-            'retimage'=> (bool)$retimage
-        );
-
-        $req = array(
-            'url' => $postUrl,
-            'method' => 'post',
-            'timeout' => 10,
-            'data' => json_encode($post_data),
-            'header' => array(
-                'Authorization:'.$sign,
-                'Content-Type:text/json',
-                'Expect: ',
-            ),
-        );
-        $rsp  = Http::send($req);
-
-        $ret  = json_decode($rsp, true);
-
-        if(!$ret){
-            return self::getStatusText();
-        }
-
-        return $ret;
-    }
-
-    /**
      * @param $url 图片url
      * @param $retimage 是否返回名片图像
      * @return 返回的结果，JSON字符串，字段参见API文档

@@ -347,17 +347,6 @@ var_dump($uploadRet);
 * `YouTu::idcardocr($image_path,  $card_type, $seq = '') `
 * `YouTu::idcardocrurl($url,  $card_type, $seq = '') `
 
-	身份证OCR识别
-
-	- 参数
-    	- `$image_path` 待检测图片路径
-    	- `$url`待检测图片的url
-    	- `$card_type` 0 代表输入图像是身份证正面， 1代表输入是身份证反面
-
-
-* `YouTu::namecardocr($image_path,  $retimage, $seq = '') `
-* `YouTu::namecardocrurl($url,  $retimage, $seq = '') `
-
 	名片ocr识别
 
 	- 参数
