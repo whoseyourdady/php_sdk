@@ -7,7 +7,7 @@ class Conf
 
     const API_YOUTU_END_POINT = 'https://api.youtu.qq.com/';
     const API_YOUTU_CHARGE_END_POINT = 'https://vip-api.youtu.qq.com/';
-    const API_TENCENTYUN_END_POINT = 'https://youtu.api.qcloud.com/';
+
 
 
     // 请到 open.youtu.qq.com查看您对应的appid相关信息并填充
