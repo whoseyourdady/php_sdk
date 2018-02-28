@@ -1,6 +1,6 @@
 # TencentYoutuyun-person-face-service
 
-php sdk for [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html) & [腾讯优图开放平台](http://open.youtu.qq.com)
+php sdk for [腾讯优图开放平台](http://open.youtu.qq.com)
 
 ## 安装（直接下载源码集成）
 
@@ -219,6 +219,17 @@ var_dump($uploadRet);
 		- `$url` 待检测图片的url
 		- `$group_id` 需要识别的人 所在的组
 
+* `YouTu::multifaceidentify($image_path,$group_id, array $group_ids, $topn=5, $min_size=40)`
+* `YouTu::multifaceidentifyurl($url, $group_id, array $group_ids, $topn=5, $min_size=40)`
+上传人脸图片，进行多人脸检索。
+	- 参数
+		- `$image_path` 待检测图片路径
+		- `$url` 待检测图片的url
+		- `$group_id` 需要识别的人 所在的组
+		- `$group_ids` 需要识别的人 所在的组的列表（数组）
+		- `$topn` 候选人脸数量，一般使用默认值5
+		- `$min_size` 人脸检测最小尺寸，一般使用默认值40
+
 
 * `YouTu::newperson($image_path, $person_id, array $group_ids, $person_name="", $person_tag="")`
 * `YouTu::newpersonurl($url, $person_id, array $group_ids, $person_name="", $person_tag="")`
@@ -335,6 +346,7 @@ var_dump($uploadRet);
 	- 参数
 		- `$image_path` 待检测图片路径
 		- `$url` 待检测图片的url
+
 * `YouTu::imageporn($image_path)`
 * `YouTu::imagepornurl($url)`
 
@@ -343,6 +355,21 @@ var_dump($uploadRet);
     	- `$image_path` 待检测图片路径
     	- `$url`待检测图片的url
 
+* `YouTu::imageterrorism($image_path)`
+* `YouTu::imageterrorismurl($url)`
+
+	暴恐图片识别
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
+
+* `YouTu::carclassify($image_path)`
+* `YouTu::carclassifyurl($url)`
+
+	车辆属性识别
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
 
 * `YouTu::idcardocr($image_path,  $card_type, $seq = '') `
 * `YouTu::idcardocrurl($url,  $card_type, $seq = '') `
@@ -385,8 +412,33 @@ var_dump($uploadRet);
     	- `$url`待检测图片的url
     	- `$card_type` 0 代表输入图像是行驶证， 1代表输入图像是驾驶证
 
+* `YouTu::plateocr($image_path, $seq = '') `
+* `YouTu::plateocrurl($url, $seq = '') `
+
+	车牌OCR识别
+
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
+
+* `YouTu::creditcardocr($image_path, $seq = '') `
+* `YouTu::creditcardocrurl($url, $seq = '') `
+
+	银行卡OCR识别
+
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
+
+* `YouTu::bizlicenseocr($image_path, $seq = '') `
+* `YouTu::bizlicenseocrurl($url, $seq = '') `
+
+	营业执照OCR识别
+
+	- 参数
+    	- `$image_path` 待检测图片路径
+    	- `$url`待检测图片的url
 
 ####更多详情和文档说明参见
-* [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html)
 * [腾讯优图开放平台](http://open.youtu.qq.com)
 

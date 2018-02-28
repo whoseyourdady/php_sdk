@@ -471,6 +471,7 @@ class YouTu
         /**
      * @brief faceidentifyurl
      * @param group_id 识别的组id
+     * @param group_ids 个体存放的组id，可以指定多个组id，用户指定
      * @param url 待识别的图片的url
      * @return 返回的结果，JSON字符串，字段参见API文档
      */
@@ -485,6 +486,102 @@ class YouTu
             'app_id' =>  Conf::$APPID,
             'url' =>  $url,
             'group_id' =>$group_id,
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+            ),
+        );
+        $rsp  = Http::send($req);
+         $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    /**
+     * @brief multifaceidentify
+     * @param group_id 识别的组id
+     * @param group_ids 个体存放的组id，可以指定多个组id，用户指定
+     * @param image_path 待识别的图片路径
+     * @param topn 候选人脸数量，一般使用默认值5
+     * @param min_size 人脸检测最小尺寸，一般使用默认值40
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+
+    public static function multifaceidentify($image_path,$group_id, array $group_ids, $topn=5, $min_size=40) {
+
+        $real_image_path = realpath($image_path);
+
+        if (!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/multifaceidentify';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'image' =>  base64_encode($image_data),
+            'group_id' =>$group_id,
+            'group_ids' =>$group_ids,
+            'topn' =>$topn,
+            'min_size' =>$min_size
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+            ),
+        );
+        $rsp  = Http::send($req);
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+        /**
+     * @brief multifaceidentifyurl
+     * @param group_id 识别的组id
+     * @param group_ids 个体存放的组id，可以指定多个组id，用户指定
+     * @param url 待识别的图片的url
+     * @param topn 候选人脸数量，一般使用默认值5
+     * @param min_size 人脸检测最小尺寸，一般使用默认值40
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+
+    public static function multifaceidentifyurl($url,$group_id, array $group_ids, $topn=5, $min_size=40) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/api/multifaceidentify';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'url' =>  $url,
+            'group_id' =>$group_id,
+            'group_ids' =>$group_ids,
+            'topn' =>$topn,
+            'min_size' =>$min_size
         );
 
         $req = array(
@@ -1311,7 +1408,173 @@ class YouTu
         return $ret;
     }
 
+    /**
+     * imageterrorism 暴恐图片识别
+     * @param $image_path 待检测的路径
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function imageterrorism($image_path) {
 
+        $real_image_path = realpath($image_path);
+
+        if (!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/imageterrorism';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+
+        return $ret;
+    }
+
+    /**
+     * imageterrorismurl 暴恐图片识别
+     * @param $url 图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function imageterrorismurl($url) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/imageterrorism';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+
+        return $ret;
+    }
+
+    /**
+     * carclassify 车辆属性识别
+     * @param $image_path 待检测的路径
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function carclassify($image_path) {
+
+        $real_image_path = realpath($image_path);
+
+        if (!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array());
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/carapi/carclassify';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'image' => base64_encode($image_data),
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+
+        return $ret;
+    }
+
+    /**
+     * carclassifyurl 车辆属性识别
+     * @param $url 图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function carclassifyurl($url) {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/imageapi/imageterrorism';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'url' => $url,
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+        $rsp  = Http::send($req);
+
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+
+        return $ret;
+    }
 
     /**
      * @param $url 图片url
@@ -1886,6 +2149,252 @@ class YouTu
 
         $expired = time() + self::EXPIRED_SECONDS;
         $postUrl = Conf::$END_POINT . '/youtu/ocrapi/bcocr';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'url' => $url
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+
+        $rsp  = Http::send($req);
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    /**
+     * creditcardocr 银行卡OCR识别
+     * @param $image_path 待检测的路径
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function creditcardocr($image_path, $seq='') {
+
+        $real_image_path = realpath($image_path);
+        if(!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array()); 
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/ocrapi/creditcardocr';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'image' =>  base64_encode($image_data)
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+
+        $rsp  = Http::send($req);
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    /**
+     * creditcardocrurl 银行卡OCR识别
+     * @param $url 待检测的图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function creditcardocrurl($url, $seq='') {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/ocrapi/creditcardocr';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'url' => $url
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+
+        $rsp  = Http::send($req);
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    /**
+     * bizlicenseocr 营业执照OCR识别
+     * @param $image_path 待检测的路径
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function bizlicenseocr($image_path, $seq='') {
+
+        $real_image_path = realpath($image_path);
+        if(!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array()); 
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/ocrapi/bizlicenseocr';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'image' =>  base64_encode($image_data)
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+
+        $rsp  = Http::send($req);
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    /**
+     * bizlicenseocrurl 营业执照OCR识别
+     * @param $url 待检测的图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function bizlicenseocrurl($url, $seq='') {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/ocrapi/bizlicenseocr';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'url' => $url
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+
+        $rsp  = Http::send($req);
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    /**
+     * plateocr 车牌OCR识别
+     * @param $image_path 待检测的路径
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function plateocr($image_path, $seq='') {
+
+        $real_image_path = realpath($image_path);
+        if(!file_exists($real_image_path))
+        {
+            return array('httpcode' => 0, 'code' => self::HTTP_BAD_REQUEST, 'message' => 'file '.$image_path.' not exists', 'data' => array()); 
+        }
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/ocrapi/plateocr';
+        $sign = Auth::appSign($expired, Conf::$USER_ID);
+
+        $image_data = file_get_contents($real_image_path);
+
+        $post_data = array(
+            'app_id' =>  Conf::$APPID,
+            'image' =>  base64_encode($image_data)
+        );
+
+        $req = array(
+            'url' => $postUrl,
+            'method' => 'post',
+            'timeout' => 10,
+            'data' => json_encode($post_data),
+            'header' => array(
+                'Authorization:'.$sign,
+                'Content-Type:text/json',
+                'Expect: ',
+            ),
+        );
+
+        $rsp  = Http::send($req);
+        $ret  = json_decode($rsp, true);
+
+        if(!$ret){
+            return self::getStatusText();
+        }
+        return $ret;
+    }
+
+    /**
+     * plateocrurl 车牌OCR识别
+     * @param $url 待检测的图片url
+     * @return 返回的结果，JSON字符串，字段参见API文档
+     */
+    public static function plateocrurl($url, $seq='') {
+
+        $expired = time() + self::EXPIRED_SECONDS;
+        $postUrl = Conf::$END_POINT . 'youtu/ocrapi/plateocr';
         $sign = Auth::appSign($expired, Conf::$USER_ID);
 
         $post_data = array(
