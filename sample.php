@@ -2,22 +2,81 @@
 
 require('./include.php');
 use TencentYoutuyun\Youtu;
+use TencentYoutuyun\Conf;
 
-#$uploadRet = YouTu::DetectFace('you_path.jpg');
-#$uploadRet = YouTu::NewPerson('you_path.jpg','123456',array('test_groupid','test_groupid2','test_groupid3'));
-#$uploadRet = YouTu::FaceVerify('you_path.jpg','123456');
-#$uploadRet = YouTu::FaceIdentify('you_path.jpg','test_groupid');
-#$uploadRet = YouTu::NewPerson('you_path.jpg','123456',array('test_groupid','test_groupid2','test_groupid3'));
-#$uploadRet = YouTu::DelPerson('123456');
-#$uploadRet = YouTu::AddFace('123456',array('you_path.jpg'));
-#$uploadRet = YouTu::DelFace('123456',array('1027423607359340543'));
-#$uploadRet = YouTu::SetInfo('name_groupid','123456');
-#$uploadRet = YouTu::GetInfo('123456');
-#$uploadRet = YouTu::GetGroupIds();
-#$uploadRet = YouTu::GetPersonIds('test_groupid');
-#$uploadRet = YouTu::GetFaceIds('123456');
-#$uploadRet = YouTu::GetFaceInfo('1027425345818656767');
-$uploadRet = YouTu::FaceCompare('you_path_one.jpg', 'you_path_two.jpg');
 
+// 设置APP 鉴权信息 请在http://open.youtu.qq.com 创建应用
+
+$appid='';
+$secretId='';
+$secretKey='';
+$userid='';
+
+
+Conf::setAppInfo($appid, $secretId, $secretKey, $userid,conf::API_YOUTU_END_POINT );
+
+
+// 人脸检测 调用列子
+//$uploadRet = YouTu::detectface('a.jpg', 1);
+//var_dump($uploadRet);
+
+
+// 人脸定位 调用demo
+//$uploadRet = YouTu::faceshape('a.jpg', 1);
+//var_dump($uploadRet);
+
+//黄图识别
+//$uploadRet = YouTu::imageporn('test.jpg', 1);
+//var_dump($uploadRet);
+//$uploadRet = YouTu::imagepornurl('http://open.youtu.qq.com/content/img/product/face/face_05.jpg', 1);
+//var_dump($uploadRet);
+
+//身份证ocr
+
+//$uploadRet = YouTu::idcardocr('test.jpg', 1);
+//var_dump($uploadRet);
+//$uploadRet = YouTu::idcardocrurl('http://open.youtu.qq.com/content/img/product/face/face_05.jpg', 1);
+//var_dump($uploadRet);
+
+//名片
+// $uploadRet = YouTu::namecardocr('test.jpg', 1);
+// var_dump($uploadRet);
+$uploadRet = YouTu::namecardocrurl('http://open.youtu.qq.com/content/img/product/face/face_05.jpg', 1);
 var_dump($uploadRet);
+
+// $uploadRet = YouTu::plateocr('plate.jpg');
+// var_dump($uploadRet);
+$uploadRet = YouTu::plateocrurl('http://open.youtu.qq.com/app/img/experience/char_general/ocr_license_1.jpg');
+var_dump($uploadRet);
+
+// $uploadRet = YouTu::bizlicenseocr('biz.jpg');
+// var_dump($uploadRet);
+$uploadRet = YouTu::bizlicenseocrurl('http://open.youtu.qq.com/app/img/experience/char_general/ocr_yyzz_01.jpg');
+var_dump($uploadRet);
+
+// $uploadRet = YouTu::creditcardocr('credit.jpg');
+// var_dump($uploadRet);
+
+$uploadRet = YouTu::creditcardocrurl('http://open.youtu.qq.com/app/img/experience/char_general/ocr_card_1.jpg');
+var_dump($uploadRet);
+
+// $uploadRet = YouTu::carclassify('car.jpg');
+// var_dump($uploadRet);
+
+$uploadRet = YouTu::carclassifyurl('http://open.youtu.qq.com/app/img/experience/car/car_01.jpg');
+var_dump($uploadRet);
+
+// $uploadRet = YouTu::imageterrorism('terror.jpg');
+// var_dump($uploadRet);
+
+$uploadRet = YouTu::imageterrorismurl('http://open.youtu.qq.com/app/img/experience/terror/img_terror01.jpg');
+var_dump($uploadRet);
+
+$group_ids = array();
+// $uploadRet = YouTu::multifaceidentify('terror.jpg', "test", $group_ids, 5, 40);
+// var_dump($uploadRet);
+
+$uploadRet = YouTu::multifaceidentifyurl('http://open.youtu.qq.com/app/img/experience/face_img/face_13.jpg', "test", $group_ids, 5, 40);
+var_dump($uploadRet);
+
 ?>
